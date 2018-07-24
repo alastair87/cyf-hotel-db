@@ -92,8 +92,9 @@ router.put("/reservations/:id", function(req, res) {
 
 router.get("/reservations/starting-on/:startDate", (req, res) => {
   const params = req.params;
+  const startDate = params.startDate.split("-").join("/");
   knex("reservations")
-    .where("check_in_date", params.startDate.split("-").join("/"))
+    .where("check_in_date", startDate)
     .then(data => res.status(200).send(data));
 });
 
