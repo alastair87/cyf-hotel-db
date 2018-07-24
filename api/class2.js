@@ -14,14 +14,16 @@ router.get("/customers", function(req, res) {
 });
 
 router.get("/customers/:id", function(req, res) {
+  const params = req.params;
   knex("customers")
-    .where("id", req.params.id)
+    .where("id", params.id)
     .then(data => res.status(200).json(data));
 });
 
 router.get("/customers/surnames/:surname", function(req, res) {
+  const params = req.params;
   knex("customers")
-    .where("surname", req.params.surname)
+    .where("surname", params.surname)
     .then(data => res.status(200).json(data));
 });
 
