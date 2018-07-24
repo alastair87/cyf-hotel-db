@@ -14,33 +14,39 @@ router.get("/customers", function(req, res) {
 });
 
 router.get("/customers/:id", function(req, res) {
-  // TODO: add code here
+  knex("customers")
+    .where("id", req.params.id)
+    .then(data => res.status(200).json(data));
 });
 
-router.get("/customers/:surname", function(req, res) {
-  // TODO: add code here
+router.get("/customers/surnames/:surname", function(req, res) {
+  knex("customers")
+    .where("surname", req.params.surname)
+    .then(data => res.status(200).json(data));
 });
 
 router.post("/customers/", function(req, res) {
-  // EXPECTED JSON Object:
-  // {
-  //   title: 'Mr',
-  //   firstname: 'Laurie',
-  //   surname: 'Ainley',
-  //   email: 'laurie@ainley.com'
-  // }
-  // TODO: add code here
+  const body = req.body;
+  knex("customers").insert({
+    title: body.title,
+    firstname: body.firstname,
+    surname: body.surname,
+    email: body.email
+  });
 });
 
 router.put("/customers/:id", function(req, res) {
-  // EXPECTED JSON Object:
-  // {
-  //   title: 'Mr',
-  //   firstname: 'Laurie',
-  //   surname: 'Ainley',
-  //   email: 'laurie@ainley.com'
-  // }
-  // TODO: add code here
+  const body = req.body,
+    params = req.params;
+  knex("customers")
+    .where("id", params.id)
+    .update({
+      title: body.title,
+      firstname: body.firstname,
+      surname: body.surname,
+      email: body.email
+    })
+    .then(data => res.status(200).json(data));
 });
 
 // get '/reservations'
