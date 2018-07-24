@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-var knex = require("knex")({
+const knex = require("knex")({
   client: "sqlite3",
   connection: {
     filename: "./database/database.sqlite"
@@ -10,18 +10,7 @@ var knex = require("knex")({
 });
 
 router.get("/customers", function(req, res) {
-  // TODO: fix code here
-  res.status(200).json({
-    customers: [
-      {
-        id: 2,
-        title: "Mr",
-        firstname: "Laurie",
-        surname: "Ainley",
-        email: "laurie@ainley.com"
-      }
-    ]
-  });
+  knex("customers").then(data => res.status(200).json(data));
 });
 
 router.get("/customers/:id", function(req, res) {
