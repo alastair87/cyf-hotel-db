@@ -9,27 +9,27 @@ const knex = require("knex")({
   }
 });
 
-router.get("/reservations", function(req, res) {
-  knex("reservations").then(data => res.status(200).json(data));
+router.get("/customers", function(req, res) {
+  knex("customers").then(data => res.status(200).json(data));
 });
 
-router.get("/reservations/:id", function(req, res) {
+router.get("/customers/:id", function(req, res) {
   const params = req.params;
-  knex("reservations")
+  knex("customers")
     .where("id", params.id)
     .then(data => res.status(200).json(data));
 });
 
-router.get("/reservations/surnames/:surname", function(req, res) {
+router.get("/customers/surnames/:surname", function(req, res) {
   const params = req.params;
-  knex("reservations")
+  knex("customers")
     .where("surname", params.surname)
     .then(data => res.status(200).json(data));
 });
 
-router.post("/reservations/", function(req, res) {
+router.post("/customers/", function(req, res) {
   const body = req.body;
-  knex("reservations").insert({
+  knex("customers").insert({
     title: body.title,
     firstname: body.firstname,
     surname: body.surname,
@@ -37,7 +37,7 @@ router.post("/reservations/", function(req, res) {
   });
 });
 
-router.put("/reservations/:id", function(req, res) {
+router.put("/customers/:id", function(req, res) {
   const body = req.body,
     params = req.params;
   knex("reservations")
@@ -62,22 +62,17 @@ router.get("/reservations/:id", function(req, res) {
     .then(data => res.status(200).json(data));
 });
 
-router.get("/reservations/starting-on/:startDate", function(req, res) {
-  const params = req.params;
-  knex("reservations")
-    .where("check_in_date", params.startDate)
-    .then(data => res.status(200).json(data));
-});
-
 router.post("/reservations/", function(req, res) {
   const body = req.body;
-  knex("reservations").insert({
-    customer_id: body.customer_id,
-    room_id: body.room_id,
-    check_in_date: body.check_in_date,
-    check_out_date: body.check_out_date,
-    room_price: body.room_price
-  });
+  knex("reservations")
+    .insert({
+      customer_id: body.customer_id,
+      room_id: body.room_id,
+      check_in_date: body.check_in_date,
+      check_out_date: body.check_out_date,
+      room_price: body.room_price
+    })
+    .then(data => res.status(200).json(data));
 });
 
 router.put("/reservations/:id", function(req, res) {
@@ -93,6 +88,16 @@ router.put("/reservations/:id", function(req, res) {
       room_price: body.room_price
     })
     .then(data => res.status(200).json(data));
+});
+
+router.get("/reservations/starting-on/:startDate", (req, res) => {
+  const params = req.params;
+  // knex("reservations")
+  //   .where("check_in_date", params.startDate)
+  //   .then(data => res.status(200).send(data));
+  knex("reservations")
+    .where("check_in_date", params.startDate.split("-").join("/"))
+    .then(data => res.status(200).send(data));
 });
 
 // get '/reservations'
