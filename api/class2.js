@@ -92,11 +92,17 @@ router.put("/reservations/:id", function(req, res) {
 
 router.get("/reservations/starting-on/:startDate", (req, res) => {
   const params = req.params;
-  // knex("reservations")
-  //   .where("check_in_date", params.startDate)
-  //   .then(data => res.status(200).send(data));
   knex("reservations")
     .where("check_in_date", params.startDate.split("-").join("/"))
+    .then(data => res.status(200).send(data));
+});
+
+router.get("/reservations/active-on/:date", (req, res) => {
+  const params = req.params;
+  const date = req.params.date.split("-").join("/");
+  knex("reservations")
+    .where("check_in_date", "<=", date)
+    .andWhere("check_out_date", ">=", date)
     .then(data => res.status(200).send(data));
 });
 
