@@ -9,27 +9,27 @@ const knex = require("knex")({
   }
 });
 
-router.get("/customers", function(req, res) {
-  knex("customers").then(data => res.status(200).json(data));
+router.get("/reservations", function(req, res) {
+  knex("reservations").then(data => res.status(200).json(data));
 });
 
-router.get("/customers/:id", function(req, res) {
+router.get("/reservations/:id", function(req, res) {
   const params = req.params;
-  knex("customers")
+  knex("reservations")
     .where("id", params.id)
     .then(data => res.status(200).json(data));
 });
 
-router.get("/customers/surnames/:surname", function(req, res) {
+router.get("/reservations/surnames/:surname", function(req, res) {
   const params = req.params;
-  knex("customers")
+  knex("reservations")
     .where("surname", params.surname)
     .then(data => res.status(200).json(data));
 });
 
-router.post("/customers/", function(req, res) {
+router.post("/reservations/", function(req, res) {
   const body = req.body;
-  knex("customers").insert({
+  knex("reservations").insert({
     title: body.title,
     firstname: body.firstname,
     surname: body.surname,
@@ -37,16 +37,60 @@ router.post("/customers/", function(req, res) {
   });
 });
 
-router.put("/customers/:id", function(req, res) {
+router.put("/reservations/:id", function(req, res) {
   const body = req.body,
     params = req.params;
-  knex("customers")
+  knex("reservations")
     .where("id", params.id)
     .update({
       title: body.title,
       firstname: body.firstname,
       surname: body.surname,
       email: body.email
+    })
+    .then(data => res.status(200).json(data));
+});
+
+router.get("/reservations", function(req, res) {
+  knex("reservations").then(data => res.status(200).json(data));
+});
+
+router.get("/reservations/:id", function(req, res) {
+  const params = req.params;
+  knex("reservations")
+    .where("id", params.id)
+    .then(data => res.status(200).json(data));
+});
+
+router.get("/reservations/starting-on/:startDate", function(req, res) {
+  const params = req.params;
+  knex("reservations")
+    .where("check_in_date", params.startDate)
+    .then(data => res.status(200).json(data));
+});
+
+router.post("/reservations/", function(req, res) {
+  const body = req.body;
+  knex("reservations").insert({
+    customer_id: body.customer_id,
+    room_id: body.room_id,
+    check_in_date: body.check_in_date,
+    check_out_date: body.check_out_date,
+    room_price: body.room_price
+  });
+});
+
+router.put("/reservations/:id", function(req, res) {
+  const body = req.body,
+    params = req.params;
+  knex("reservations")
+    .where("id", params.id)
+    .update({
+      customer_id: body.customer_id,
+      room_id: body.room_id,
+      check_in_date: body.check_in_date,
+      check_out_date: body.check_out_date,
+      room_price: body.room_price
     })
     .then(data => res.status(200).json(data));
 });
