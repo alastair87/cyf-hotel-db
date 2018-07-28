@@ -1,0 +1,25 @@
+{
+  "name": "cyf-hotel",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "generate-data": "node assets/data/generate.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.15.4",
+    "express-handlebars": "^3.0.0",
+    "handlebars": "^4.0.11",
+    "knex": "0.13.0",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "jsonfile": "^4.0.0",
+    "nodemon": "1.11.0"
+  }
+}

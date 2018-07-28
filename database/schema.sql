@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS rooms;
 
 CREATE TABLE rooms (
     id        INTEGER       PRIMARY KEY AUTOINCREMENT,
-    room_type_id INTEGER,
+    room_type_id INTEGER NOT NULL,
     sea_view     BOOLEAN,
     FOREIGN KEY(room_type_id) REFERENCES room_types(id)
 );
@@ -64,9 +64,10 @@ CREATE TABLE reviews (
     customer_id INTEGER,
     rating INTEGER,
     comment VARCHAR(200),
-    review_date DATETIME
+    review_date DATETIME,
+    FOREIGN KEY(customer_id) REFERENCES customers(id)
 );
-
+ 
 -- INSERT INTO customers (title, firstname, surname, email) VALUES ('Mr.', 'Laurie', 'Ainley', 'laurie@ainley.com');
 -- INSERT INTO customers (title, firstname, surname, email) VALUES ('Mr.', 'Donald', 'Trump', 'don@twitter.com');
 -- INSERT INTO customers (title, firstname, surname, email) VALUES ('Ms.', 'Beyonce', 'Knowles', 'beyonce@queen.gov');
